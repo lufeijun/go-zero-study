@@ -1,0 +1,9 @@
+Name: test
+Host: 0.0.0.0
+Port: 7777
+
+
+
+Mysql:
+  DataSource: root:123456@tcp(192.168.0.121:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource1: root:123456@tcp(192.168.0.121:3306)/go-zero1?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
