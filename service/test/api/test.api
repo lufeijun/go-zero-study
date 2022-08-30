@@ -5,33 +5,14 @@
 // api语法版本
 syntax = "v2"
 
-// import literal
-// import "foo.api"
-
-// import group
-//import (
-//    "bar.api"
-//    "foo/bar.api"
-//)
 info(
 	author: "lufeijun1234"
-	date:   "2022-08-29"
-	desc:   "api语法示例及语法说明"
+	date:   "2022-09-01"
+	desc:   "demo"
 )
 
 // type literal
-
-type Foo {
-	Foo int `json:"foo"`
-}
-
-// type group
-
 type (
-	Bar {
-		Bar int `json:"bar"`
-	}
-
 	Response {
 		Status  int64       `json:"status"`
 		Message string      `json:"message"`
@@ -42,14 +23,11 @@ type (
 // service block
 @server(
 	group: test09
-	prefix: api/test
+	prefix: api/test09
 )
 service test {
-	@doc "test"
-	@handler test09
-	get /test0901/one returns (Response)
 	
-	@handler test0902
-	get /test0901/two returns (Response)
+	@handler redis
+	get /redis returns (Response)
 	
 }

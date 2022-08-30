@@ -15,15 +15,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/test0901/one",
-				Handler: test09.Test09Handler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/test0901/two",
-				Handler: test09.Test0902Handler(serverCtx),
+				Path:    "/redis",
+				Handler: test09.RedisHandler(serverCtx),
 			},
 		},
-		rest.WithPrefix("/api/test"),
+		rest.WithPrefix("/api/test09"),
 	)
 }
