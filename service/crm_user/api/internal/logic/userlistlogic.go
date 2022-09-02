@@ -26,5 +26,5 @@ func NewUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserList
 func (l *UserListLogic) UserList() (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 
-	return
+	return &types.Response{}, nil
 }

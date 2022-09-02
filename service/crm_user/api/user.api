@@ -25,6 +25,14 @@ type (
 		Level    int64  `json:"level,optional,default=1"`
 		ParentId int64  `json:"parent_id,optional,default=0"`
 	}
+
+	RoleSearch {
+		Name     string `json:"name,optional"`
+		IsEnable int64  `json:"is_enable,optional,default=-1"`
+		Level    int64  `json:"level,optional,default=0"`
+		ParentId int64  `json:"parent_id,optional,default=0"`
+		Page     int64  `json:"page,optional,default=1"`
+	}
 )
 
 // service block
@@ -38,6 +46,9 @@ service crm_user {
 	
 	@handler roleAdd
 	post /role/add(RoleAdd) returns (Response)
+	
+	@handler roleList
+	post /role/list(RoleSearch) returns (Response)
 	
 	@handler roleEdit
 	post /role/edit(RoleAdd) returns (Response)

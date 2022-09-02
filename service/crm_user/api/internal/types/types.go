@@ -18,3 +18,11 @@ type RoleAdd struct {
 	Level    int64  `json:"level,optional,default=1"`
 	ParentId int64  `json:"parent_id,optional,default=0"`
 }
+
+type RoleSearch struct {
+	Name     string `json:"name,optional"`
+	IsEnable int64  `json:"is_enable,optional,default=-1"`
+	Level    int64  `json:"level,optional,default=0"`
+	ParentId int64  `json:"parent_id,optional,default=0"`
+	Page     int64  `json:"page,optional,default=1"`
+}

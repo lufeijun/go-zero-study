@@ -24,6 +24,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/role/list",
+				Handler: roleListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/role/edit",
 				Handler: roleEditHandler(serverCtx),
 			},
