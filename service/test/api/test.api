@@ -18,16 +18,27 @@ type (
 		Message string      `json:"message"`
 		Data    interface{} `json:"data"`
 	}
+
+	ErrorReq {
+		A int64 `json:"a"`
+	}
 )
 
 // service block
 @server(
 	group: test09
 	prefix: api/test09
+	middleware: Errormiddleware
 )
 service test {
 	
 	@handler redis
 	get /redis returns (Response)
+	
+	@handler error
+	get /error/first(ErrorReq) returns (Response)
+	
+	@handler gorm
+	get /gorm/get returns (Response)
 	
 }

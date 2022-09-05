@@ -12,13 +12,26 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/redis",
-				Handler: test09.RedisHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Errormiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/redis",
+					Handler: test09.RedisHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/error/first",
+					Handler: test09.ErrorHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/gorm/get",
+					Handler: test09.GormHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/api/test09"),
 	)
 }

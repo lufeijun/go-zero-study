@@ -7,3 +7,5 @@ Redis :
 - Host: 127.0.0.1:6379
   Pass: "123456"
   Type: node
+
+DataSourceName: root:123456@(192.168.0.121:3306)/go-zero?charset=utf8
