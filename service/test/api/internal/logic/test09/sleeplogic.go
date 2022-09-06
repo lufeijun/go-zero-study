@@ -27,9 +27,14 @@ func NewSleepLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SleepLogic 
 func (l *SleepLogic) Sleep() (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 
+	start := time.Now().Unix()
+
 	time.Sleep(2 * time.Second)
+
+	end := time.Now().Unix()
 
 	return &types.Response{
 		Message: "sleep",
+		Data:    end - start,
 	}, nil
 }
