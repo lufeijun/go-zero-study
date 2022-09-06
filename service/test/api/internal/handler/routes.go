@@ -30,6 +30,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/gorm/get",
 					Handler: test09.GormHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/sleep/first",
+					Handler: test09.SleepHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithPrefix("/api/test09"),

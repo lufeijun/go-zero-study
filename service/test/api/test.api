@@ -41,4 +41,7 @@ service test {
 	@handler gorm
 	get /gorm/get returns (Response)
 	
+	@handler sleep
+	get /sleep/first returns (Response)
+	
 }
