@@ -17,6 +17,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
+					Path:    "/index",
+					Handler: test09.IndexHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
 					Path:    "/redis",
 					Handler: test09.RedisHandler(serverCtx),
 				},

@@ -32,6 +32,9 @@ type (
 )
 service test {
 	
+	@handler index
+	get /index returns (Response)
+	
 	@handler redis
 	get /redis returns (Response)
 	
