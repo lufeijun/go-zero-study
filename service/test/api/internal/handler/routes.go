@@ -40,6 +40,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/sleep/first",
 					Handler: test09.SleepHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/log",
+					Handler: test09.LogHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithPrefix("/api/test09"),

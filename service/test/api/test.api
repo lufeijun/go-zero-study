@@ -47,4 +47,7 @@ service test {
 	@handler sleep
 	get /sleep/first returns (Response)
 	
+	@handler log
+	get /log returns (Response)
+	
 }

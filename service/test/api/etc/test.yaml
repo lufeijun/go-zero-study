@@ -9,3 +9,11 @@ Redis :
   Type: node
 
 DataSourceName: root:123456@(192.168.0.121:3306)/go-zero?charset=utf8
+
+
+Log:
+  Mode: "file"
+  Level: "error"
+  TimeFormat: "2006-01-02 15:04:05:00"
+  KeepDays: 3
+  Compress: true
