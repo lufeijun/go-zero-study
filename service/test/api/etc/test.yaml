@@ -17,3 +17,9 @@ Log:
   TimeFormat: "2006-01-02 15:04:05:00"
   KeepDays: 3
   Compress: true
+
+Telemetry:
+  Name: test.api
+  Endpoint: http://192.168.0.121:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger

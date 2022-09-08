@@ -19,3 +19,9 @@ UserRpc:
     Hosts:
     - 192.168.0.87:2379
     Key: user.rpc
+
+Telemetry:
+  Name: user.api
+  Endpoint: http://192.168.0.121:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
