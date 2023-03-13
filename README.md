@@ -1,35 +1,33 @@
-# go-zero-learn
+# go-zero 1.5.0
 
-参考：https://github.com/nivin-studio/go-zero-mall
 
-# 一、 user 微服务
+# 第一阶段-基础功能使用
 
-## 启动
+## goctl 命令
 
-```
-# 启动 rpc 
-cd service/user/rpc
-go run user.go -f etc/user.yaml
+## 单体模式
 
-# 启动 api
-cd service/user/api
-go run user.go -f etc/user.yaml
-```
+### 路由模式了解
 
-## 访问
+### 数据库连接
 
-```
-http://127.0.0.1:8000/api/user/login
+### redis 使用
 
-```
+### 队列
 
-## 说明
+### 定时任务
 
-### 启动多个 rpc
+### 日志
 
-在启动一个 rpc 后，如果把 port 改为 9001 ，login 错误提示稍微修改 ```用户不存在111``` 。这样就启动了两个 rpc 服务器，即 127.0.0.1:9000、127.0.0.1:9001，
-在访问 ```http://127.0.0.1:8000/api/user/login``` 时，设置错误的 uid。多次请求时，返回值为：```用户不存在、用户不存在111```。可以看出来，底层做了负载均衡
+### 错误处理
+
+### 中间件
+
+### 插件
+
+## rpc 模式
 
 
 
 
+# 第二阶段-源码学习
