@@ -6,6 +6,7 @@ import (
 
 	cache "demo/gozero115/internal/handler/cache"
 	group "demo/gozero115/internal/handler/group"
+	redis "demo/gozero115/internal/handler/redis"
 	user "demo/gozero115/internal/handler/user"
 	"demo/gozero115/internal/svc"
 
@@ -43,6 +44,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/cache"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/",
+				Handler: redis.IndexHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/redis"),
 	)
 
 	server.AddRoutes(

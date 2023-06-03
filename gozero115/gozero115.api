@@ -41,3 +41,13 @@ service gozero115-api{
 	@handler IndexHandler
 	get / returns (Response)
 }
+
+@server(
+	group: redis
+	
+	prefix: redis
+)
+service gozero115-api {
+	@handler IndexHandler
+	get / returns (Response)
+}

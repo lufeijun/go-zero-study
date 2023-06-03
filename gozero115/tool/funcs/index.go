@@ -9,7 +9,7 @@ func ResponseInit() (res *types.Response) {
 	res.Status = 0
 	res.Message = "success"
 	// res.Data = make(map[string]interface{}, 0)
-	// res.Data = new(interface{})
+	// res.Data = make(map[string]string)
 	return
 
 }

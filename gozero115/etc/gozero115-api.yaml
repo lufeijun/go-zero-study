@@ -1,3 +1,17 @@
 Name: gozero115-api
 Host: 0.0.0.0
 Port: 8888
+
+
+# Redis: 
+# -Host: "192.168.0.87:6379"
+#  Pass: "123456"
+#  Type: "node"
+
+
+JpRedisConfig :
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+
+Jipeng : "吉鹏"

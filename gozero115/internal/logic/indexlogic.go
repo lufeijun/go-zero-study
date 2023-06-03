@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"time"
+	"unsafe"
 
 	"demo/gozero115/internal/svc"
 	"demo/gozero115/internal/types"
+	"demo/gozero115/tool/funcs"
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/mr"
@@ -30,15 +32,19 @@ func NewIndexLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IndexLogic 
 func (l *IndexLogic) Index() (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 	// var a interface{}
+	resp = funcs.ResponseInit()
+
 	start := time.Now().UnixMicro()
 
-	time.Sleep(time.Second)
+	// time.Sleep(time.Second)
 
 	// mrFinish()
+	fmt.Println(unsafe.Sizeof(resp))
+	fmt.Println(unsafe.Sizeof(*resp))
 
-	return &types.Response{
-		Data: time.Now().UnixMicro() - start,
-	}, nil
+	resp.Data = time.Now().UnixMicro() - start
+
+	return
 }
 
 func mrFinish() {
