@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	cache "demo/gozero115/internal/handler/cache"
+	elasticsearch "demo/gozero115/internal/handler/elasticsearch"
 	group "demo/gozero115/internal/handler/group"
 	redis "demo/gozero115/internal/handler/redis"
 	user "demo/gozero115/internal/handler/user"
@@ -55,6 +56,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/redis"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/",
+				Handler: elasticsearch.IndexHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/es"),
 	)
 
 	server.AddRoutes(
