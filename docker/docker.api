@@ -1,0 +1,23 @@
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
+service docker-api {
+	@handler HomeHandler
+	get / returns (Response)
+
+	@handler HealthHandler
+	get /health returns (Response)
+
+	@handler EnvHandler
+	get /env returns (Response)
+
+}
+
+// 版本问题
