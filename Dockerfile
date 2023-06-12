@@ -15,7 +15,7 @@ ADD go.sum .
 RUN go mod download
 COPY . .
 # COPY ./etc /app/etc
-RUN go build -ldflags="-s -w" -o /app/docker .
+RUN go build -ldflags="-s -w" -o /app/docker ./docker
 
 
 FROM scratch
@@ -26,6 +26,6 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=builder /app/docker /app/docker
-COPY --from=builder /app/etc /app/etc
+# COPY --from=builder /app/etc /app/etc
 
 CMD ["./docker", "-f", "etc/docker-api.yaml"]
