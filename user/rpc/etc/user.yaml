@@ -4,6 +4,7 @@ Etcd:
   Hosts:
   - 192.168.0.68:2379
   Key: user.rpc
+  
 
 Mysql:
   DataSource: root:123456@tcp(192.168.0.34:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
@@ -15,3 +16,12 @@ CacheRedis:
 
 # 用户密码加密
 Salt: HWVOFkGgPTryzICwd7qnJaZR9KQ2i8xe  
+
+# 服务之间的认证逻辑 ex user-api ==> user-rpc
+Auth: true   # 是否开启 Auth 验证
+StrictControl: true 
+Redis:  # 指定 Redis 服务
+  Key: rpc:auth:user     # 指定 Key 应为 hash 类型
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass:
