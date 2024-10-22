@@ -1,6 +1,6 @@
 Name: User
 Host: 0.0.0.0
-Port: 8077
+Port: 8081
 
 ysql:
   DataSource: root:123456@tcp(mysql:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
