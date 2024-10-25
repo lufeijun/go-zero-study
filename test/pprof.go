@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"runtime"
+	"runtime/trace"
 	"sync"
 	"time"
 
@@ -29,7 +31,10 @@ func main() {
 	// goroutine()
 
 	// thread profile
-	thread()
+	// thread()
+
+	// trace
+	trace_test()
 }
 
 // cpu profile ，查看 go tool pprof -http=:9999 cpu.pprof
@@ -152,5 +157,23 @@ func thread() {
 	p.Stop()
 
 	time.Sleep(time.Second * 5)
+
+}
+
+// trace
+func trace_test() {
+	f, _ := os.Create("profile/trace.out")
+	defer f.Close()
+	trace.Start(f)
+	defer trace.Stop()
+
+	fmt.Println("Hello world")
+
+	go busyCpu()
+	go busyCpu()
+
+	time.Sleep(1 * time.Second)
+
+	fmt.Println("End")
 
 }
