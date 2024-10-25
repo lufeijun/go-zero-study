@@ -1,0 +1,29 @@
+Name: order.rpc
+ListenOn: 0.0.0.0:8033
+Etcd:
+  Hosts:
+  - 192.168.0.68:2379
+  Key: order.rpc
+
+Mysql:
+  DataSource: root:123456@tcp(192.168.0.34:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+CacheRedis:
+- Host: 127.0.0.1:6379
+  Type: node
+  Pass:
+
+# 添加 rpc 依赖
+UserRpc:
+  App: userapi # App 标识
+  Token: 6jKNZbEpYGeUMAifz10gOnmoty3TV # Token 值
+  Etcd:
+    Hosts:
+    - 192.168.0.68:2379
+    Key: user.rpc
+
+ProductRpc:
+  Etcd:
+    Hosts:
+    - 192.168.0.68:2379
+    Key: product.rpc  
