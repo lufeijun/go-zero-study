@@ -1,0 +1,17 @@
+syntax = "v1"
+
+type Request {
+	Name string `path:"name,options=you|me"`
+}
+
+type Response {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
+service demo-api {
+	@handler DemoHandler
+	get / returns (Response)
+}
+
