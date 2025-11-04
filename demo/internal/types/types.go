@@ -3,8 +3,36 @@
 
 package types
 
+type ChangePasswordReq struct {
+	ID          int    `json:"id"`
+	OldPassword string `json:"oldPassword"`
+	NewPassword string `json:"newPassword"`
+}
+
+type LoginReq struct {
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+}
+
+type RegisterReq struct {
+	Name     string `json:"name"`
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+}
+
 type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
+}
+
+type UserInfo struct {
+	ID int `path:"id"`
+}
+
+type UserResp struct {
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Phone string `json:"phone"`
+	Token string `json:"token,optional"`
 }

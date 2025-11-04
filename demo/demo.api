@@ -1,12 +1,12 @@
 syntax = "v1"
 
 info (
-    name: "lufeijun"
-    email: "lufeijun_1234@126.com"
+	name:  "lufeijun"
+	email: "lufeijun_1234@126.com"
 )
 
 type Response {
-	Code int      `json:"code"`
+	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
 }
@@ -16,3 +16,5 @@ service demo-api {
 	get /info returns (Response)
 }
 
+// 用户管理模块
+import "route/member.api"

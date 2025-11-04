@@ -32,6 +32,8 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
+	// model.InitDb(c.Mysql.DataSource)
+
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
@@ -44,7 +46,11 @@ func main() {
 				Msg:  e.Msg,
 			}
 		default:
-			return http.StatusInternalServerError, nil
+			// return http.StatusInternalServerError, e.Error()
+			return http.StatusOK, xhttp.BaseResponse[types.Nil]{
+				Code: 400,
+				Msg:  e.Error(),
+			}
 		}
 	})
 

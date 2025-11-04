@@ -22,10 +22,11 @@ func ResponseSetMsg(res *types.Response, msg string) {
 }
 
 func ResponseError(msg string, code int) error {
-	if code == 0 {
-		code = 400
-	}
 	return errors.New(code, msg)
+}
+
+func ResponseErrorDefaultCode(msg string) error {
+	return errors.New(400, msg)
 }
 
 func GetLocalIp() string {

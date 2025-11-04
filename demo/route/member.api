@@ -1,0 +1,55 @@
+syntax =  "v1"
+
+
+type (
+    // 注册请求
+    RegisterReq {
+        Name     string `json:"name"`
+        Phone    string `json:"phone"`
+        Password string `json:"password"`
+    }
+    
+    // 登录请求
+    LoginReq {
+        Phone    string `json:"phone"`
+        Password string `json:"password"`
+    }
+    
+    // 修改密码请求
+    ChangePasswordReq {
+        ID          int    `json:"id"`
+        OldPassword string `json:"oldPassword"`
+        NewPassword string `json:"newPassword"`
+    }
+    
+    // 通用响应
+    UserResp {
+        ID    int    `json:"id"`
+        Name  string `json:"name"`
+        Phone string `json:"phone"`
+        Token string `json:"token,optional"`
+    }
+
+    UserInfo {
+        ID    int    `path:"id"`
+    }
+)
+
+
+@server (
+    prefix: /api/member
+    group:  member
+)
+service demo-api {
+    @handler register
+    post /register (RegisterReq) returns (Response)
+    
+    @handler login
+    post /login (LoginReq) returns (Response)
+    
+    @handler changePassword
+    post /changePassword (ChangePasswordReq) returns (Response)
+
+    @handler getUserInfo
+    get /info/:id (UserInfo) returns (Response)
+}
