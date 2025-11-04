@@ -1,15 +1,24 @@
+// Code scaffolded by goctl. Safe to edit.
+// goctl 1.9.2
+
 package main
 
 import (
 	"flag"
 	"fmt"
+	"go/types"
+	"net/http"
 
-	"demo/demo/internal/config"
-	"demo/demo/internal/handler"
-	"demo/demo/internal/svc"
+	"demo/internal/config"
+	"demo/internal/handler"
+	"demo/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/rest/httpx"
+
+	"github.com/zeromicro/x/errors"
+	xhttp "github.com/zeromicro/x/http"
 )
 
 var configFile = flag.String("f", "etc/demo-api.yaml", "the config file")
@@ -25,6 +34,19 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+
+	// httpx.SetErrorHandler 仅在调用了 httpx.Error 处理响应时才有效。
+	httpx.SetErrorHandler(func(err error) (int, any) {
+		switch e := err.(type) {
+		case *errors.CodeMsg:
+			return http.StatusOK, xhttp.BaseResponse[types.Nil]{
+				Code: e.Code,
+				Msg:  e.Msg,
+			}
+		default:
+			return http.StatusInternalServerError, nil
+		}
+	})
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
