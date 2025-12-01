@@ -5,36 +5,43 @@ package svc
 
 import (
 	"demo/internal/config"
-	"demo/model"
-	"fmt"
 	"time"
 
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type ServiceContext struct {
 	Config config.Config
 
-	UserModel model.UsersModel
+	Db *gorm.DB
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 
-	// 1. 创建 sqlx.SqlConn
-	conn := sqlx.NewMysql(c.Mysql.DataSource)
+	// 初始化 GORM
+	db, err := gorm.Open(mysql.Open(c.Mysql.DataSource), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
+	if err != nil {
+		panic("failed to connect database: " + err.Error())
+	}
 
-	db, _ := conn.RawDB()
+	// 获取底层的 sql.DB 设置连接池
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic("failed to get sql.DB: " + err.Error())
+	}
 
-	db.SetMaxOpenConns(c.Mysql.MaxOpenConns)
-	db.SetMaxIdleConns(c.Mysql.MaxIdleConns)
-
-	db.SetConnMaxIdleTime(time.Duration(c.Mysql.ConnMaxIdleTime) * time.Second)
-	db.SetConnMaxLifetime(time.Duration(c.Mysql.ConnMaxLifetime) * time.Second)
-
-	fmt.Println("====NewServiceContext======")
+	// 设置连接池参数
+	sqlDB.SetMaxIdleConns(c.Mysql.MaxIdleConns)                      // 最大空闲连接数
+	sqlDB.SetMaxOpenConns(c.Mysql.MaxOpenConns)                      // 最大打开连接数
+	sqlDB.SetConnMaxLifetime(time.Duration(c.Mysql.ConnMaxLifetime)) // 连接最大存活时间
+	sqlDB.SetConnMaxIdleTime(time.Duration(c.Mysql.ConnMaxIdleTime))
 
 	return &ServiceContext{
-		Config:    c,
-		UserModel: model.NewUsersModel(conn),
+		Config: c,
+		Db:     db,
 	}
 }

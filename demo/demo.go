@@ -29,7 +29,19 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	// server := rest.MustNewServer(c.RestConf)
+	// jwt 认证失败处理逻辑
+	server := rest.MustNewServer(c.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
+		fmt.Println("======dasds")
+		fmt.Println(err)
+
+		w.WriteHeader(http.StatusOK)
+		httpx.OkJson(w, map[string]any{
+			"code": 401,
+			"msg":  "令牌无效或已过期",
+		})
+	}))
+
 	defer server.Stop()
 
 	// model.InitDb(c.Mysql.DataSource)

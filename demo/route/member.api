@@ -47,6 +47,17 @@ service demo-api {
     @handler login
     post /login (LoginReq) returns (Response)
     
+}
+
+@server (
+
+    jwt: JwtAuth // 开启 jwt 认证
+
+    prefix: /api/member
+    group:  member
+)
+service demo-api {
+
     @handler changePassword
     post /changePassword (ChangePasswordReq) returns (Response)
 

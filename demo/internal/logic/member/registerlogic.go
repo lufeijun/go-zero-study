@@ -5,8 +5,8 @@ package member
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"time"
 
 	"demo/internal/svc"
 	"demo/internal/types"
@@ -14,8 +14,8 @@ import (
 	"demo/tool"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type RegisterLogic struct {
@@ -37,14 +37,14 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 
 	resp = tool.ResponseInit()
 
-	_, err = l.svcCtx.UserModel.FindOneByPhone(l.ctx, req.Phone)
-	if err == nil {
+	var user model.User
+	err = l.svcCtx.Db.Where("phone = ?", req.Phone).First(&user).Error
+
+	fmt.Println(err)
+
+	if err == nil || !errors.Is(err, gorm.ErrRecordNotFound) {
 		err = tool.ResponseErrorDefaultCode("手机号已存在")
 		return
-	}
-
-	if err != sqlx.ErrNotFound {
-		return nil, tool.ResponseErrorDefaultCode(err.Error())
 	}
 
 	// 加密密码
@@ -52,28 +52,21 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, 
 	if err != nil {
 		return nil, err
 	}
+	stringPassword := string(hashedPassword)
 
 	// 创建用户
-	user := &model.Users{
-		Name:      req.Name,
-		Password:  string(hashedPassword),
-		Phone:     req.Phone,
-		CreatedAt: time.Now().Format("2006-01-02 15:04:05"),
-		UpdatedAt: time.Now().Format("2006-01-02 15:04:05"),
+
+	newobj := model.User{
+		Name:     &req.Name,
+		Password: &stringPassword,
+		Phone:    &req.Phone,
+	}
+	result := l.svcCtx.Db.Create(&newobj) // 通过数据的指针来创建
+
+	if result.Error != nil {
+		return nil, result.Error
 	}
 
-	result, err := l.svcCtx.UserModel.Insert(l.ctx, user)
-	if err != nil {
-		return nil, err
-	}
-
-	id, _ := result.LastInsertId()
-
-	user.Id = uint64(id)
-
-	fmt.Println(id)
-
-	resp.Data = user
-
+	resp.Data = newobj
 	return
 }

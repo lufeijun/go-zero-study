@@ -8,6 +8,7 @@ import (
 
 	"demo/internal/svc"
 	"demo/internal/types"
+	"demo/model"
 	"demo/tool"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,10 +33,10 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.UserInfo) (resp *types.Respons
 
 	resp = tool.ResponseInit()
 
-	// 从路径参数获取用户ID
-	userId := req.ID
+	var user model.User
 
-	user, err := l.svcCtx.UserModel.GetMsgById(l.ctx, uint64(userId))
+	err = l.svcCtx.Db.First(&user, req.ID).Error
+
 	if err != nil {
 		return nil, err
 	}

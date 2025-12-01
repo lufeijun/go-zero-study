@@ -1,0 +1,17 @@
+Name: demo-api
+Host: 0.0.0.0
+Port: 8888
+
+
+Mysql:
+  DataSource: root:Zxc456&*(@tcp(192.168.153.128:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Local
+  # 连接池配置
+  MaxOpenConns: 50      # 最大打开连接数
+  MaxIdleConns: 5       # 最大空闲连接数
+  ConnMaxLifetime: 3600  # 连接最大生命周期（秒）
+  ConnMaxIdleTime: 600   # 连接最大空闲时间（秒）
+
+
+JwtAuth:
+  AccessSecret: k9zH7mH4nH3bH2gH1aH0cH8dH6eH5f
+  AccessExpire: 86400  # 24小时

@@ -10,6 +10,7 @@ import (
 
 	"demo/internal/svc"
 	"demo/internal/types"
+	"demo/model"
 	"demo/tool"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -36,19 +37,22 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error
 	resp = tool.ResponseInit()
 
 	// 查找用户
-	user, err := l.svcCtx.UserModel.FindOneByPhone(l.ctx, req.Phone)
+	var user model.User
+
+	err = l.svcCtx.Db.Where("phone = ?", req.Phone).First(&user).Error
+
 	if err != nil {
 		return nil, errors.New("手机号或密码错误")
 	}
 
 	// 验证密码
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(req.Password))
 	if err != nil {
 		return nil, errors.New("手机号或密码错误")
 	}
 
 	// 生成 JWT token
-	token, err := l.generateToken(user.Id, user.Name)
+	token, err := l.generateToken(uint64(user.ID), *user.Name)
 	if err != nil {
 		return nil, err
 	}
