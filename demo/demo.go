@@ -32,7 +32,6 @@ func main() {
 	// server := rest.MustNewServer(c.RestConf)
 	// jwt 认证失败处理逻辑
 	server := rest.MustNewServer(c.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
-		fmt.Println("======dasds")
 		fmt.Println(err)
 
 		w.WriteHeader(http.StatusOK)

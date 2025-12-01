@@ -6,14 +6,13 @@ package member
 import (
 	"context"
 	"errors"
-	"time"
 
 	"demo/internal/svc"
 	"demo/internal/types"
 	"demo/model"
+	"demo/service"
 	"demo/tool"
 
-	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/logx"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -52,7 +51,11 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error
 	}
 
 	// 生成 JWT token
-	token, err := l.generateToken(uint64(user.ID), *user.Name)
+	userService := service.NewUserService(l.ctx, l.svcCtx)
+	token, err := userService.GenerateToken(service.JwtMsg{
+		UserId:   uint64(user.ID),
+		UserName: *user.Name,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -61,18 +64,4 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error
 	}
 
 	return
-}
-
-func (l *LoginLogic) generateToken(userId uint64, username string) (string, error) {
-	now := time.Now().Unix()
-	expiresAt := now + l.svcCtx.Config.JwtAuth.AccessExpire
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userId":   userId,
-		"username": username,
-		"exp":      expiresAt,
-		"iat":      now,
-	})
-
-	return token.SignedString([]byte(l.svcCtx.Config.JwtAuth.AccessSecret))
 }

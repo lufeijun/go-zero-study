@@ -5,10 +5,12 @@ package member
 
 import (
 	"context"
+	"fmt"
 
 	"demo/internal/svc"
 	"demo/internal/types"
 	"demo/model"
+	"demo/service"
 	"demo/tool"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -41,5 +43,13 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.UserInfo) (resp *types.Respons
 		return nil, err
 	}
 	resp.Data = user
+
+	userService := service.NewUserService(l.ctx, l.svcCtx)
+	msg, _ := userService.ParseToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfY3JlYXRlX2F0IjoxNzY0NTkzODA5LCJqd3RfZXhwaXJlc19hdCI6MTc2NDY4MDIwOSwiand0X3VzZXJfaWQiOjEsImp3dF91c2VyX25hbWUiOiLot6_po57lkJsifQ.Dss4YZ9uxjvwJKPVrEfdSetx7IPT3dC2cIaOWpe1MKw")
+	fmt.Println(msg)
+	fmt.Println(msg.UserName)
+
+	fmt.Println(l.ctx)
+
 	return
 }
