@@ -18,3 +18,4 @@ service demo-api {
 
 // 用户管理模块
 import "route/member.api"
+import "route/cache.api"

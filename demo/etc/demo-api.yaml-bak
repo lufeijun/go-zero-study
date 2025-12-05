@@ -3,6 +3,13 @@ Host: 0.0.0.0
 Port: 8888
 
 
+Log:
+  ServiceName: demo-api
+  Mode: file
+  Path: ./logs/demo-api.log
+  Rotation: daily
+  KeepDays: 7
+
 Mysql:
   DataSource: root:Zxc456&*(@tcp(192.168.153.128:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Local
   # 连接池配置

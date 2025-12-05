@@ -1,0 +1,16 @@
+syntax =  "v1"
+
+
+@server (
+    prefix: /api/cache
+    group:  testcache
+    middleware: TestCacheMiddleware
+)
+service demo-api {
+    @handler set
+    post /set returns (Response)
+    
+    @handler get
+    post /get returns (Response)
+    
+}

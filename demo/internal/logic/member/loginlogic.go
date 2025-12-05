@@ -50,6 +50,14 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error
 		return nil, errors.New("手机号或密码错误")
 	}
 
+	var useraa Useraa
+	useraa.Name = *user.Name
+	useraa.Password = *user.Password
+	useraa.Phone = *user.Phone
+
+	logx.Infov(useraa)
+	logx.Info(useraa)
+
 	// 生成 JWT token
 	userService := service.NewUserService(l.ctx, l.svcCtx)
 	token, err := userService.GenerateToken(service.JwtMsg{
@@ -64,4 +72,26 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error
 	}
 
 	return
+}
+
+type Useraa struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Phone    string `json:"phone"`
+}
+
+func (u Useraa) MaskSensitive() any {
+	return Useraa{
+		Name:     u.Name,
+		Password: "******",           // 密码脱敏
+		Phone:    maskPhone(u.Phone), // 手机号脱敏
+	}
+}
+
+// 手机号脱敏函数
+func maskPhone(phone string) string {
+	if len(phone) < 7 {
+		return phone
+	}
+	return phone[:3] + "****" + phone[len(phone)-3:]
 }

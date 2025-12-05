@@ -6,6 +6,7 @@ package member
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"demo/internal/svc"
 	"demo/internal/types"
@@ -36,12 +37,18 @@ func (l *GetUserInfoLogic) GetUserInfo(req *types.UserInfo) (resp *types.Respons
 	resp = tool.ResponseInit()
 
 	var user model.User
-
-	err = l.svcCtx.Db.First(&user, req.ID).Error
+	_, err = l.svcCtx.SingleFlight.Do("user-id-"+strconv.Itoa(req.ID), func() (any, error) {
+		err = l.svcCtx.Db.First(&user, req.ID).Error
+		if err != nil {
+			return nil, err
+		}
+		return nil, nil
+	})
 
 	if err != nil {
 		return nil, err
 	}
+
 	resp.Data = user
 
 	userService := service.NewUserService(l.ctx, l.svcCtx)

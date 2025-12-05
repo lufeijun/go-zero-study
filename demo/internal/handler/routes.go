@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	member "demo/internal/handler/member"
+	testcache "demo/internal/handler/testcache"
 	"demo/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -54,5 +55,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		},
 		rest.WithJwt(serverCtx.Config.JwtAuth.AccessSecret),
 		rest.WithPrefix("/api/member"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.TestCacheMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/get",
+					Handler: testcache.GetHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/set",
+					Handler: testcache.SetHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/api/cache"),
 	)
 }
