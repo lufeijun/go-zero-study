@@ -11,7 +11,7 @@ Log:
   KeepDays: 7
 
 Mysql:
-  DataSource: root:Zxc456&*(@tcp(192.168.153.128:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Local
+  DataSource: root:123456(@tcp(192.168.153.128:3306)/go-zero?charset=utf8mb4&parseTime=true&loc=Local
   # 连接池配置
   MaxOpenConns: 50      # 最大打开连接数
   MaxIdleConns: 5       # 最大空闲连接数
@@ -22,3 +22,24 @@ Mysql:
 JwtAuth:
   AccessSecret: k9zH7mH4nH3bH2gH1aH0cH8dH6eH5f
   AccessExpire: 86400  # 24小时
+
+
+KqPusherConf:
+  Brokers:
+    - 192.168.153.130:9092
+    - 192.168.153.130:9192
+    - 192.168.153.130:9292
+  Topic: go-zero-test
+
+KqConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - 192.168.153.130:9092
+    - 192.168.153.130:9192
+    - 192.168.153.130:9292
+  Group: kqConsumer
+  Topic: go-zero-test
+  Offset: first
+  Conns: 3
+  Consumers: 8
+  Processors: 8

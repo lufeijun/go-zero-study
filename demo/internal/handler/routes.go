@@ -68,6 +68,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
+					Path:    "/kafka/get",
+					Handler: testcache.KafkaGetHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/kafka/set",
+					Handler: testcache.KafkaSetHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
 					Path:    "/set",
 					Handler: testcache.SetHandler(serverCtx),
 				},

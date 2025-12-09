@@ -8,6 +8,7 @@ import (
 	"demo/internal/middleware"
 	"time"
 
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/syncx"
 	"github.com/zeromicro/go-zero/rest"
 	"gorm.io/driver/mysql"
@@ -24,6 +25,8 @@ type ServiceContext struct {
 	TestCacheMiddleware rest.Middleware
 
 	SingleFlight syncx.SingleFlight
+
+	KqPusherClient *kq.Pusher
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -55,5 +58,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TestCacheMiddleware: middleware.NewTestCacheMiddleware().Handle,
 
 		SingleFlight: syncx.NewSingleFlight(),
+
+		KqPusherClient: kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic),
 	}
 }

@@ -4,6 +4,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"go/types"
@@ -12,8 +13,10 @@ import (
 	"demo/internal/config"
 	"demo/internal/handler"
 	"demo/internal/svc"
+	"demo/tool"
 
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
@@ -64,6 +67,17 @@ func main() {
 			}
 		}
 	})
+
+	// 消费队列
+	go func() {
+		serviceGroup := service.NewServiceGroup()
+		defer serviceGroup.Stop()
+		for _, mq := range tool.Consumers(c, context.Background(), ctx) {
+			serviceGroup.Add(mq)
+		}
+		fmt.Printf("kafka queue at %s:%d...\n", c.Host, c.Port)
+		serviceGroup.Start()
+	}()
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

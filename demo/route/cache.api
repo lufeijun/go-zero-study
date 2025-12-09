@@ -12,5 +12,12 @@ service demo-api {
     
     @handler get
     post /get returns (Response)
+
+
+    @handler kafkaSet
+    post /kafka/set returns (Response)
+    
+    @handler kafkaGet
+    post /kafka/get returns (Response)
     
 }
